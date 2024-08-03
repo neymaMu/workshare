@@ -8,7 +8,7 @@ import path from 'path'
 
 const app = express(); 
 app.use(express.json())
-app.use(cors({origin:"http://localhost:3000"}));
+app.use(cors({origin:"https://muhanawork.onrender.com"}));
 
 mongoose.connect("mongodb+srv://j4116507:0JWcQEPTfu0yxQxP@cluster0.nfqnxbb.mongodb.net/")
 .then(() => console.log("DB Connected"))

@@ -28,7 +28,7 @@ const TextEditor = () => {
   
   
   useEffect(() => {
-    const s = io("http://localhost:5000")
+    const s = io("https://muhanawork.onrender.com")
      setSocket(s)
    
    
