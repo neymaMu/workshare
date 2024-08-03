@@ -6,7 +6,7 @@ const mongoose = require("mongoose")
 const Document = require("./Document")
 const path = require("path")
 
-
+app.use(cors({origin:"http://localhost:3000"}));
 
 mongoose.connect("mongodb+srv://j4116507:0JWcQEPTfu0yxQxP@cluster0.nfqnxbb.mongodb.net/")
 .then(() => console.log("DB Connected"))
@@ -18,9 +18,9 @@ const _dirname = path.resolve();
 app.use(express.static(path.join(__dirname, '/client/dist')));
 
 app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'));
-  });
-  
+  res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'));
+});
+
 
 
 
@@ -38,7 +38,7 @@ const io = require("socket.io")(server, {
 });
 
 
-app.use(cors({origin:"http://localhost:3000"}));
+
 
 const PORT = 5000;
 
