@@ -1,25 +1,28 @@
-const express = require("express")
-const app = require("express")();
-const server = require("http").createServer(app);
-const cors = require("cors");
-const mongoose = require("mongoose")
-const Document = require("./Document")
-const path = require("path")
+import express from 'express';
+import { Server } from "socket.io";
+import cors from 'cors'
+import http from 'http';
+import mongoose from 'mongoose'
+import Document from './Document.js'
+import path from 'path'
 
+const app = express(); 
+app.use(express.json())
 app.use(cors({origin:"http://localhost:3000"}));
 
 mongoose.connect("mongodb+srv://j4116507:0JWcQEPTfu0yxQxP@cluster0.nfqnxbb.mongodb.net/")
 .then(() => console.log("DB Connected"))
 .catch((error) => console.log(error))
 
-const _dirname = path.resolve();
 
 
-app.use(express.static(path.join(__dirname, '/client/dist')));
 
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'));
-});
+
+
+const __dirname = path.resolve();
+
+
+const server = http.createServer(app);
 
 
 
@@ -30,13 +33,10 @@ app.get('*', (req, res) => {
 const defaultValue = ""
 
 
-const io = require("socket.io")(server, {
-	cors: {
-		origin: "*",
-		methods: [ "GET", "POST" ]
-	}
-});
-
+const io = new Server(server, {
+    cors: '*', 
+  });
+  
 
 
 
@@ -69,7 +69,11 @@ async function findOrCreateDocument(id) {
     return await Document.create({ _id: id, data: defaultValue })
   }
 
+  app.use(express.static(path.join(__dirname, '/client/dist')));
 
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'));
+  });
 
 
 
