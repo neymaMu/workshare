@@ -20,15 +20,17 @@ const TOOLBAR_OPTIONS = [
     ["clean"],
   ]
 
+// eslint-disable-next-line react/prop-types
 const TextEditor = () => {
   const {id:documentId} = useParams()
   const[socket,setSocket] = useState()
   const[quill,setQuill] = useState()
   
-  
-  
+
+
+ 
   useEffect(() => {
-    const s = io("https://muhanawork.onrender.com")
+    const s = io("http://localhost:5000")
      setSocket(s)
    
    
@@ -67,7 +69,7 @@ const TextEditor = () => {
 if(socket == null || quill == null) return 
 
     const handler = (delta,oldDelta,source) => {
-  if(source !== 'user') return 
+  if(source !== 'isAdmin') return 
   socket.emit("send-changes",delta)
 }
   quill.on("text-change",handler)

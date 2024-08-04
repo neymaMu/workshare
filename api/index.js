@@ -5,10 +5,14 @@ import http from 'http';
 import mongoose from 'mongoose'
 import Document from './Document.js'
 import path from 'path'
+import userRoute from './routes/user.js'
+import cookieParser from 'cookie-parser'
+
 
 const app = express(); 
 app.use(express.json())
-app.use(cors({origin:"https://muhanawork.onrender.com"}));
+app.use(cookieParser())
+app.use(cors({origin:"https://muhanawork.onrender.com",credentials:true}));
 
 mongoose.connect("mongodb+srv://j4116507:0JWcQEPTfu0yxQxP@cluster0.nfqnxbb.mongodb.net/")
 .then(() => console.log("DB Connected"))
@@ -34,13 +38,25 @@ const defaultValue = ""
 
 
 const io = new Server(server, {
-    cors: '*', 
+    cors: 'https://muhanawork.onrender.com', 
   });
   
 
 
 
 const PORT = 5000;
+
+
+
+app.use("/api/user",userRoute)
+
+
+
+
+
+
+
+
 
 
 
