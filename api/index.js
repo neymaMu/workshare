@@ -12,7 +12,7 @@ import cookieParser from 'cookie-parser'
 const app = express(); 
 app.use(express.json())
 app.use(cookieParser())
-app.use(cors({origin:"https://muhanawork.onrender.com",credentials:true}));
+
 
 mongoose.connect("mongodb+srv://j4116507:0JWcQEPTfu0yxQxP@cluster0.nfqnxbb.mongodb.net/")
 .then(() => console.log("DB Connected"))
@@ -39,10 +39,11 @@ const defaultValue = ""
 
 const io = new Server(server, {
     cors: 'https://muhanawork.onrender.com', 
+    methods: [ "GET", "POST" ]
   });
   
 
-
+  app.use(cors({origin:"https://muhanawork.onrender.com",credentials:true}));
 
 const PORT = 5000;
 
