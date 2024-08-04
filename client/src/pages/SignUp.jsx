@@ -37,7 +37,7 @@ export default function SignUp() {
        
         setLoading(true)
         setErrorMessage(false)
-      const res = await fetch("http://localhost:5000/api/user/signup",{
+      const res = await fetch("https://muhanawork.onrender.com/api/user/signup",{
         credentials: "include",
       method:"POST",
       headers:{"Content-Type":"application/json"},

@@ -3,51 +3,45 @@ import React from 'react'
 
 import TextEditor from './TextEditor'
 
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Redirect,
-} from "react-router-dom"
+import{BrowserRouter,Routes,Route} from 'react-router-dom'
 
 
-import{v4 as uuidV4} from 'uuid'
+
+
+
+import SignIn from './pages/SingIn'
+import SignUp from './pages/SignUp'
+
+
 
 
 const App = () => {
+ 
+ 
+ 
   return(
   
-  
+    <BrowserRouter>
 
-  <Router>
+      <Routes>
 
-<Switch>
+     <Route path="/" element={<SignIn/>}/>
 
-<Route path="/" exact>
-<Redirect to={`/documents/${uuidV4}`}/>
-
-</Route>
-
-
-
-<Route path="/documents/:id">
-<TextEditor/>
-</Route>
+     <Route path="/signup" element={<SignUp/>}/>
+    
+     <Route path="/test/:id" element={<TextEditor/>}/>
+      
+      
+      
+      </Routes>
 
 
-
-
-
-
-
-
-</Switch>
  
  
-  </Router>
+
   
   
- 
+    </BrowserRouter>
 
   )
 }

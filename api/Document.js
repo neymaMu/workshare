@@ -1,8 +1,11 @@
-const { Schema, model } = require("mongoose")
+import mongoose from 'mongoose'
 
-const Document = new Schema({
+const DocumentSchema = new mongoose.Schema({
   _id: String,
   data: Object,
 })
 
-module.exports = model("Document", Document)
+const Document = mongoose.model("Document",DocumentSchema) 
+
+
+export default Document

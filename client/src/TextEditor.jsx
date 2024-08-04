@@ -4,7 +4,8 @@ import Quill from 'quill'
 import 'quill/dist/quill.snow.css'
 import{io} from 'socket.io-client'
 import{useParams} from 'react-router-dom'
-
+import AdminProfile from './componets/AdminProfile'
+import Coment from './componets/Coment'
 
 const SAVE_INTERVAL_MS = 2000
 
@@ -26,14 +27,13 @@ const TextEditor = () => {
   const[socket,setSocket] = useState()
   const[quill,setQuill] = useState()
   
-
+    const[apply,setApply] = useState(true)
 
  
   useEffect(() => {
-    const s = io("http://localhost:3001")
+    const s = io("https://muhanawork.onrender.com",{transports: ['websocket'],})
      setSocket(s)
-   
-   
+     
      return () => {
       s.disconnect()
     }
@@ -66,10 +66,12 @@ const TextEditor = () => {
  
   useEffect(() => {
 
-if(socket == null || quill == null) return 
+   
+
+    if(socket == null || quill == null) return 
 
     const handler = (delta,oldDelta,source) => {
-  if(source !== 'isAdmin') return 
+  if(source !== 'user') return 
   socket.emit("send-changes",delta)
 }
   quill.on("text-change",handler)
@@ -142,10 +144,46 @@ socket.on("load-document",document => {
   },[])
 
   
-    return (
-    <div className="container" ref={wrapperRef}>
+  const handleaply = () => {
+
+  }
+  
+  
+ 
+ 
+ 
+ 
+ 
+  return (
    
+   <div className="flex justify-between">
+    
+    <div className="w-full">
+      
+      <div onClick={handleaply}>accept</div>
+      
+      <AdminProfile/>
+    
+    
+    
     </div>
+   
+  
+  <div className="container" ref={wrapperRef}>
+      </div>
+  
+  <div className="w-full  ">
+    <Coment/>
+  </div>
+
+  
+   </div>
+ 
+ 
+ 
+
+ 
+ 
   )
 }
 
