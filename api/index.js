@@ -42,7 +42,7 @@ const io = new Server(server, {
 
 
 
-app.use(cors({origin:"https://muhanawork.onrender.com",credentials:true}));
+app.use(cors({origin:"http://localhost:5173",credentials:true}));
 
 const PORT = 5000;
 server.listen(PORT, () => console.log(`Server is running on port ${PORT}`));

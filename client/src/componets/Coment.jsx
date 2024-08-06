@@ -2,17 +2,34 @@ import React,{useState,useContext,useEffect} from 'react'
 import{ Button, Textarea} from 'flowbite-react'
 import{UserContext} from '../context/UserContext'
 import CommentScroll from './CommentScroll'
+import TextSelector from "text-selection-react";
 
 
-
-const Coment = () => {
+const Coment = ({item,select,position}) => {
  
- 
+
 
  const {user}=useContext(UserContext)
  
   const[comment,setComment] = useState("")
 
+  
+  
+  const [items, setItems] = useState([]);
+
+useEffect(() => {
+  const items = JSON.parse(localStorage.getItem('items'));
+ 
+   setItems(items);
+
+}, [items]);
+  
+  
+  
+  
+  
+  console.log(items)
+  
   
   
   const handleSubmit = async(e) => {
@@ -23,7 +40,7 @@ const Coment = () => {
     }
      
     try{
-     const res = await fetch(`https://muhanawork.onrender.com/api/coment/create`,{
+     const res = await fetch(`http://localhost:5000/api/coment/create`,{
        credentials: "include",
      method:"POST",
     
@@ -64,7 +81,9 @@ const Coment = () => {
 
 
 
+const handlerSubmit = () => {
 
+}
 
 
 
@@ -75,10 +94,9 @@ return (
    
    <div className="flex w-full mt-20 flex-col fixed ">
    
-   
-   
-   
- 
+   {item && <div>hi</div>}
+
+
    <div className="w-[330px] ">
   
 
@@ -89,7 +107,7 @@ return (
    
 
    
-   
+  
    
    
    
@@ -97,17 +115,21 @@ return (
    <div className=" w-[330px]  ">
     
     
+      
+  
     
-    
-      <form className='border border-teal-500  rounded-md p-3' onSubmit={handleSubmit}>
+     <form className='border border-teal-500  rounded-md p-3' onSubmit={handleSubmit}
+      
+      
+      >
 
 
-      <Textarea 
+<Textarea 
     placeholder='add a Comment...'
     rows='3'
     maxLength='200'
     onChange={(e) => setComment(e.target.value)}
-    value={comment}
+    value={items}
   
   />
 

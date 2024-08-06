@@ -1,4 +1,4 @@
-import React,{useCallback,useEffect,useState} from 'react'
+import React,{useCallback,useEffect,useState,useRef,useContext} from 'react'
 
 import Quill from 'quill'
 import 'quill/dist/quill.snow.css'
@@ -6,6 +6,10 @@ import{io} from 'socket.io-client'
 import{useParams} from 'react-router-dom'
 import AdminProfile from './componets/AdminProfile'
 import Coment from './componets/Coment'
+import TextSelector from "text-selection-react";
+import{ Button, Textarea} from 'flowbite-react'
+import{UserContext} from './context/UserContext'
+
 
 const SAVE_INTERVAL_MS = 2000
 
@@ -14,7 +18,7 @@ const TOOLBAR_OPTIONS = [
     [{ font: [] }],
     [{ list: "ordered" }, { list: "bullet" }],
     ["bold", "italic", "underline"],
-    [{ color: [] }, { background: [] }],
+    [{ color: [] }, { background: ["red", "blue", "yellow"] }],
     [{ script: "sub" }, { script: "super" }],
     [{ align: [] }],
     ["image", "blockquote", "code-block"],
@@ -26,12 +30,18 @@ const TextEditor = () => {
   const {id:documentId} = useParams()
   const[socket,setSocket] = useState()
   const[quill,setQuill] = useState()
-  
+  const[show,setShow] = useState([])
     const[apply,setApply] = useState(true)
-
- 
+    const[comment,setComment] = useState("")
+   
+   
+  
+  
+  
+   
+    const {user}=useContext(UserContext)
   useEffect(() => {
-    const s = io("https://muhanawork.onrender.com",{transports: ['websocket'],})
+    const s = io("http://localhost:5000",{transports: ['websocket'],})
      setSocket(s)
      
      return () => {
@@ -75,6 +85,7 @@ const TextEditor = () => {
   socket.emit("send-changes",delta)
 }
   quill.on("text-change",handler)
+  
 return () => {
     quill.off("text-change",handler) 
 }
@@ -125,40 +136,92 @@ socket.on("load-document",document => {
   
   
   
-  
-  
-  
-  
+ 
   
   const wrapperRef = useCallback(wrapper => {
     if(wrapper == null) return
 
-    wrapper.innerHTML = ""
+   
+wrapper.innerHTML =""
+   
+   
     const editor = document.createElement("div")
     wrapper.append(editor)
    const q = new Quill(editor,{theme:"snow",modules: { toolbar: TOOLBAR_OPTIONS },})
-  
-  q.disable()
-  q.setText('Loading....')
+   
+   
+
+   
+ 
+   q.disable()
+  q.setText('loading...')
+
    setQuill(q)
   },[])
+
+
+ 
 
   
   const handleaply = () => {
 
   }
+
+ 
+ 
+ 
+
+  
+  useEffect(() => {
+    if (quill) {
+      quill.on('text-change', () => {
+        const text = quill.getText();
+       setShow(text);
+      });
+    }
+  }, [quill]);
+  
+  const[select,setSelect] = useState([])
+  
+ 
+
+ 
+
+   useEffect(() => {
+    document.onmouseup = () => {
+  
+      const me = window.getSelection(show).toString() 
+      setSelect(me)
+    
+    
+    }
+
+    localStorage.setItem('items', JSON.stringify(select));
+
+   },[select])
+
+
+
+ 
   
   
  
- 
- 
- 
- 
+  
   return (
    
    <div className="flex justify-between">
     
-    <div className="w-full">
+    
+    
+    
+    
+    
+    
+   
+   
+   
+   
+    <div className="w-full ">
       
       <div onClick={handleaply}>accept</div>
       
@@ -167,16 +230,36 @@ socket.on("load-document",document => {
     
     
     </div>
-   
+  
   
   <div className="container" ref={wrapperRef}>
+
       </div>
   
-  <div className="w-full  ">
-    <Coment/>
+  <div className="w-full">
+ 
+ 
+  <Coment select={select} />
+
+ 
+  <div  >
+   
+ 
+    
+   
+         
   </div>
+ 
+ 
+  </div>
+ 
 
   
+   
+   
+   
+   
+   
    </div>
  
  
