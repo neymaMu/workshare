@@ -66,7 +66,20 @@ const Coment = ({newpo,setNewpo}) => {
   
   
   const handleClick = async() => {
-   
+    try{
+      const res = await fetch(`https://muhanawork.onrender.com/api/select/${newpo._id}`,{
+        credentials: "include",
+        method:"DELETE",
+      })
+      const data = await res.json()
+    
+      if(res.ok){
+        setNewpo([])
+      }
+        }
+        catch(error){
+          console.log(error)
+        }
   }
 
 
