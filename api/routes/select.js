@@ -3,7 +3,7 @@
 
 import express from 'express'
 const router = express.Router() 
-import {SelectText ,getSelect  } from '../controllers/select.js'
+import{SelectText,getSelect} from '../controllers/select.js'
 import {verifyToken} from '../utils/verifyUser.js'
 
 
