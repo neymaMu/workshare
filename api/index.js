@@ -17,7 +17,7 @@ import SelecUser from './routes/select.js'
 const app = express();
 app.use(express.json())
 app.use(cookieParser())
-
+app.use(cors({origin:"https://muhanawork.onrender.com",credentials:true}));
 
 
 mongoose.connect("mongodb+srv://j4116507:0JWcQEPTfu0yxQxP@cluster0.nfqnxbb.mongodb.net/")
@@ -42,7 +42,7 @@ const io = new Server(server, {
 
 
 
-app.use(cors({origin:"https://muhanawork.onrender.com",credentials:true}));
+
 
 const PORT = 5000;
 server.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
@@ -54,6 +54,12 @@ app.use("/api/select",SelecUser)
 
 
 
+app.use(express.static(path.join(__dirname, '/client/dist')));
+
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'));
+  });
+  
 io.on("connection",function(socket)  {
     
   socket.on("get-document",async documentId => {
@@ -82,11 +88,7 @@ async function findOrCreateDocument(id) {
 
 
 
-  app.use(express.static(path.join(__dirname, '/client/dist')));
-
-  app.get('*', (req, res) => {
-      res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'));
-    });
+ 
     
 
  
