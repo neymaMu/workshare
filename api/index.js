@@ -12,7 +12,6 @@ import cookieParser from 'cookie-parser'
 import ComentUser from './routes/coment.js'
 import SelecUser from './routes/select.js'
 
-const __dirname = path.resolve();
 
 
 const app = express();
@@ -26,6 +25,7 @@ mongoose.connect("mongodb+srv://j4116507:0JWcQEPTfu0yxQxP@cluster0.nfqnxbb.mongo
 .catch((error) => console.log(error))
 
 
+const __dirname = path.resolve();
   
   const server = http.createServer(app);
 
