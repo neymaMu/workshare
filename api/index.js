@@ -54,13 +54,6 @@ app.use("/api/select",SelecUser)
 
 
 
-app.use(express.static(path.join(__dirname, '/client/dist')));
-
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'));
-  });
-  
-
 io.on("connection",function(socket)  {
     
   socket.on("get-document",async documentId => {
@@ -88,6 +81,13 @@ async function findOrCreateDocument(id) {
 
 
 
+
+  app.use(express.static(path.join(__dirname, '/client/dist')));
+
+  app.get('*', (req, res) => {
+      res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'));
+    });
+    
 
  
 
