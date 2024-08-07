@@ -1,4 +1,4 @@
-import Select from '../models/Select.js'
+import Select from '../models/select.js'
 
 
 export const SelectText = async(req,res) => {
