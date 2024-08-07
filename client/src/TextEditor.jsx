@@ -41,7 +41,7 @@ const TextEditor = () => {
    
     const {user}=useContext(UserContext)
   useEffect(() => {
-    const s = io("http://localhost:5000",{transports: ['websocket'],})
+    const s = io("https://muhanawork.onrender.com",{transports: ['websocket'],})
      setSocket(s)
      
      return () => {
@@ -176,36 +176,73 @@ wrapper.innerHTML =""
     if (quill) {
       quill.on('text-change', () => {
         const text = quill.getText();
-       setShow(text);
+       setSelect(text)
+      
       });
     }
   }, [quill]);
-  
-  const[select,setSelect] = useState([])
-  
+
  
+  
+  const[select,setSelect] = useState( ) 
+
+const[last,setLast] = useState()
+ const[newpo,setNewpo] = useState([])
+
+
 
  
 
-   useEffect(() => {
+  useEffect(() => {
     document.onmouseup = () => {
   
-      const me = window.getSelection(show).toString() 
-      setSelect(me)
+      const me = document.getSelection(show).toString() 
+     setLast(me)
+    }
+ },[last])
+      
+   
+      
+
+ 
+     useEffect(() => {
+      if(last){
+        createSelect()
+      }
+    },[last])
     
-    
+      
+    const createSelect = async()=>{
+      try{
+        const res = await fetch(`https://muhanawork.onrender.com/api/select/sele`,{
+          credentials: "include",
+        method:"POST",
+       
+          headers:{
+            "Content-Type" : "application/json",
+            'x-auth-token': "JWT_SECRET",
+          },
+         
+          body:JSON.stringify({select:last,userId:user._id})
+         })
+        
+        
+          const data = await res.json()
+          if(res.ok){
+          
+          setNewpo(data)
+         
+          }
+       }
+      catch(error){
+        console.log(error)
+      }
     }
 
-    localStorage.setItem('items', JSON.stringify(select));
-
-   },[select])
 
 
 
- 
-  
-  
- 
+
   
   return (
    
@@ -213,7 +250,7 @@ wrapper.innerHTML =""
     
     
     
-    
+  
     
     
     
@@ -227,7 +264,7 @@ wrapper.innerHTML =""
       
       <AdminProfile/>
     
-    
+   
     
     </div>
   
@@ -238,8 +275,12 @@ wrapper.innerHTML =""
   
   <div className="w-full">
  
+
  
-  <Coment select={select} />
+ 
+<Coment newpo={newpo} setNewpo={setNewpo}/>
+ 
+ 
 
  
   <div  >

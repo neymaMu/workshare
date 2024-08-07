@@ -3,32 +3,29 @@ import{ Button, Textarea} from 'flowbite-react'
 import{UserContext} from '../context/UserContext'
 import CommentScroll from './CommentScroll'
 import TextSelector from "text-selection-react";
+import { IoIosSend } from "react-icons/io";
 
-
-const Coment = ({item,select,position}) => {
+const Coment = ({newpo,setNewpo}) => {
  
 
 
  const {user}=useContext(UserContext)
  
-  const[comment,setComment] = useState("")
-
+  const[comment,setComment] = useState()
   
   
-  const [items, setItems] = useState([]);
+  const [items, setItems] = useState();
 
-useEffect(() => {
-  const items = JSON.parse(localStorage.getItem('items'));
+
  
-   setItems(items);
 
-}, [items]);
-  
-  
-  
-  
-  
-  console.log(items)
+
+ 
+
+
+
+
+
   
   
   
@@ -40,7 +37,7 @@ useEffect(() => {
     }
      
     try{
-     const res = await fetch(`http://localhost:5000/api/coment/create`,{
+     const res = await fetch(`https://muhanawork.onrender.com/api/coment/create`,{
        credentials: "include",
      method:"POST",
     
@@ -55,7 +52,8 @@ useEffect(() => {
      
        const data = await res.json()
        if(res.ok){
-         setComment('')
+       
+        setComment('')
       
        }
     }
@@ -67,11 +65,46 @@ useEffect(() => {
 }
   
   
-  
+  const handleClick = async() => {
+    try{
+  const res = await fetch(`https://muhanawork.onrender.com/api/select/${newpo._id}`,{
+    credentials: "include",
+    method:"DELETE",
+  })
+  const data = await res.json()
+
+  if(res.ok){
+    setNewpo([])
+  }
+    }
+    catch(error){
+      console.log(error)
+    }
+  }
 
 
   
-  
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+return (
+   
+   <div className="flex w-[300px] mt-10 flex-col fixed space-y-5 ">
+   
+ 
+
+ 
+ 
  
 
 
@@ -81,23 +114,77 @@ useEffect(() => {
 
 
 
-const handlerSubmit = () => {
-
-}
 
 
+<div className=" ">
 
 
 
 
-return (
-   
-   <div className="flex w-full mt-20 flex-col fixed ">
-   
-   {item && <div>hi</div>}
+{newpo.select  &&<form className='  rounded-md p-3' onSubmit={handleSubmit}>
 
 
-   <div className="w-[330px] ">
+
+
+
+
+
+
+
+<div className="flex bg-blue-800 mt-[10px] rounded-lg flex-col ">
+
+
+<button type="submit" className="flex justify-end">
+<IoIosSend className="text-white text-lg" />
+</button>
+
+
+
+
+<div onClick={handleClick} className="text-white cursor-pointer">@{newpo.select}</div>
+<div className="flex   items-center ">
+
+
+
+
+<Textarea className="border-0 h-[80px] text-white focus:ring-0 bg-blue-800"
+
+    placeholder='add a Comment...'
+    rows='3'
+    maxLength='200'
+    onChange={(e) => setComment(e.target.value)}
+     value={comment}
+    
+  
+  />
+
+
+</div>
+
+
+  </div>
+
+
+
+
+      </form>}
+</div>
+
+ 
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+   <div className="w-[330px] mt-[20px] ">
   
 
    
@@ -112,38 +199,13 @@ return (
    
    
    
-   <div className=" w-[330px]  ">
+   <div >
     
     
       
-  
+   
     
-     <form className='border border-teal-500  rounded-md p-3' onSubmit={handleSubmit}
-      
-      
-      >
-
-
-<Textarea 
-    placeholder='add a Comment...'
-    rows='3'
-    maxLength='200'
-    onChange={(e) => setComment(e.target.value)}
-    value={items}
-  
-  />
-
-
-<div className='flex justify-between mt-5 items-center'>
-        <p className='text-gray-500 text-sm'>{200 - comment.length}charector left</p>
-        
-        <Button outline gradientDuoTone='purpleToBlue' type="submit">
-          Submit
-        </Button>
-      </div>
-
-
-      </form>
+   
     
     
       </div>

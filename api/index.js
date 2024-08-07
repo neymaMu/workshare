@@ -10,7 +10,7 @@ import mongoose from 'mongoose'
 import AuthUser from './routes/user.js'
 import cookieParser from 'cookie-parser'
 import ComentUser from './routes/coment.js'
-
+import SelecUser from './routes/select.js'
 
 const __dirname = path.resolve();
 
@@ -42,7 +42,7 @@ const io = new Server(server, {
 
 
 
-app.use(cors({origin:"http://localhost:5173",credentials:true}));
+app.use(cors({origin:"https://muhanawork.onrender.com",credentials:true}));
 
 const PORT = 5000;
 server.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
@@ -50,6 +50,8 @@ server.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
 
 app.use("/api/user",AuthUser)
 app.use("/api/coment",ComentUser)
+app.use("/api/select",SelecUser)
+
 
 
 app.use(express.static(path.join(__dirname, '/client/dist')));
@@ -86,13 +88,8 @@ async function findOrCreateDocument(id) {
 
 
 
-  app.use(express.static(path.join(__dirname, '/client/dist')));
 
-  app.get('*', (req, res) => {
-      res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'));
-    });
+ 
+
     
-
-
-
 
